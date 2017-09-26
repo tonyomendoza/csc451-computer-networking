@@ -24,6 +24,7 @@ class UtopianSimplexSender {
           DatagramSocket clientSocket = new DatagramSocket();
           InetAddress ipAddress = InetAddress.getByName(serverName);
           byte[] sendData = new byte[size];
+          byte[] receiveData = new byte[size];
           while(keyboard.hasNext()) {
              String sentence = keyboard.nextLine();
              //System.out.println("FROM USER:"+sentence);
@@ -33,6 +34,11 @@ class UtopianSimplexSender {
                  DatagramPacket sendPacket = new DatagramPacket(sendData, size, ipAddress, serverPort);
                  clientSocket.send(sendPacket);
              }
+             
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);       // make empty datagram
+            clientSocket.receive(receivePacket);                                                                                        // receive datagram 
+            String returnMsg = new String(receivePacket.getData());
+            System.out.print(returnMsg);
           }
           System.out.println("");
           clientSocket.close();
